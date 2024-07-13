@@ -1,16 +1,14 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:scholar_chat/screens/register_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   bool hidepassword = true;
 
   @override
@@ -20,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xff97AEC7),
         title: const Text(
-          'Login',
+          'Register',
           style: TextStyle(fontSize: 30.0),
         ),
       ),
@@ -35,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'LOGIN',
+                    'REGISTER',
                     style: TextStyle(fontSize: 30.0),
                   ),
                 ],
@@ -80,7 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     icon: Icon(
                         hidepassword ? Icons.visibility : Icons.visibility_off),
-                        
                   ),
                   enabledBorder: const OutlineInputBorder(
                     borderSide: BorderSide(
@@ -98,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   label: const Text("Password"),
                   border: const OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.blue,
+                      color: Color.fromARGB(255, 24, 120, 199),
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
@@ -116,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 60.0,
                   child: const Center(
                     child: Text(
-                      "LOGIN",
+                      "Register",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 25, color: Colors.white),
                     ),
@@ -127,17 +124,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Don't have an account?",
+                    "Already have an account?",
                     style: TextStyle(fontSize: 15.0),
                   ),
                   TextButton(
-                    onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterScreen(),
-                      ),
-                    ),
+                    onPressed: () => Navigator.pop(context),
                     child: const Text(
-                      "Sign Up",
+                      "Login",
                       style: TextStyle(fontSize: 15.0),
                     ),
                   ),
