@@ -152,6 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         onPressed: () {
+          // ignore: avoid_print
           print("Register button pressed");
         },
         child: const Text(

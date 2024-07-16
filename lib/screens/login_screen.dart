@@ -117,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         onPressed: () {
+          // ignore: avoid_print
           print("Login button pressed");
         },
         child: const Text(
