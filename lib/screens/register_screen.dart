@@ -1,4 +1,12 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+String? _email;
+String? _password;
+String? errorMessage='Good!!!';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,7 +25,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         title: const Text(
           'Register',
-          style: TextStyle(fontSize: 30.0, ),
+          style: TextStyle(
+            fontSize: 30.0,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -35,8 +45,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 20.0),
               _buildPasswordField(),
               const SizedBox(height: 20.0),
-              _buildConfirmPasswordField(),
-              const SizedBox(height: 30.0),
               _buildRegisterButton(),
               const SizedBox(height: 20.0),
               _buildLoginLink(),
@@ -65,6 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildEmailField() {
     return TextField(
       keyboardType: TextInputType.emailAddress,
+      onChanged: (value) => _email = value,
       decoration: InputDecoration(
         labelText: 'Email',
         prefixIcon: const Icon(Icons.email),
@@ -86,6 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildPasswordField() {
     return TextField(
       obscureText: hidePassword,
+      onChanged: (value) => _password = value,
       decoration: InputDecoration(
         labelText: 'Password',
         prefixIcon: const Icon(Icons.lock),
@@ -119,7 +129,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         labelText: 'Confirm Password',
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(
-          icon: Icon(hideConfirmPassword ? Icons.visibility : Icons.visibility_off),
+          icon: Icon(
+              hideConfirmPassword ? Icons.visibility : Icons.visibility_off),
           onPressed: () {
             setState(() {
               hideConfirmPassword = !hideConfirmPassword;
@@ -151,9 +162,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
             borderRadius: BorderRadius.circular(12.0),
           ),
         ),
-        onPressed: () {
-          // ignore: avoid_print
-          print("Register button pressed");
+        onPressed: () async {
+          try {
+            UserCredential thisUser =
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email: '$_email',
+              password: '$_password',
+            );
+            log("Register button pressed");
+          } catch (e) {
+            if (e is FirebaseAuthException) {
+              switch (e.code) {
+                case 'email-already-in-use':
+                  errorMessage =
+                      'The email address is already in use by another account.';
+                  break;
+                case 'invalid-email':
+                  errorMessage = 'The email address is not valid.';
+                  break;
+                case 'operation-not-allowed':
+                  errorMessage = 'Email/password accounts are not enabled.';
+                  break;
+                case 'weak-password':
+                  errorMessage = 'The password is too weak.';
+                  break;
+                default:
+                  errorMessage = 'An undefined error happened: ${e.message}';
+              }
+            } else {
+              errorMessage = 'An unknown error occurred.';
+            }
+            log(errorMessage!); // Log the error message or show it to the user
+          }
+           setState(() {
+            
+          });
         },
         child: const Text(
           'Register',
@@ -164,16 +207,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildLoginLink() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
       children: [
-        const Text("Already have an account?"),
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text("Login"),
+        const SizedBox(height: 20.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Already have an account?"),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Login"),
+            ),
+          ],
         ),
+        Text("$errorMessage!",style: TextStyle(color: Colors.red),),
       ],
     );
   }

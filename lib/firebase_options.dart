@@ -41,29 +41,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCC4pb3ck7zkK87PKvzT1I-TBSC1qRDymc',
-    appId: '1:956199470017:web:fa52f6b6ac91a4f90ca540',
-    messagingSenderId: '956199470017',
-    projectId: 'quixotic-galaxy-420619',
-    authDomain: 'quixotic-galaxy-420619.firebaseapp.com',
-    storageBucket: 'quixotic-galaxy-420619.appspot.com',
-    measurementId: 'G-Q5EE2DD2TZ',
+    apiKey: 'AIzaSyBiLUDst76pJPILaHkX0QuEYJzzQRCfTUo',
+    appId: '1:197135685598:web:d5e9169792eb8bc7b4ef4f',
+    messagingSenderId: '197135685598',
+    projectId: 'scholar-chat-4d484',
+    authDomain: 'scholar-chat-4d484.firebaseapp.com',
+    storageBucket: 'scholar-chat-4d484.appspot.com',
+    measurementId: 'G-EW4175ZNRX',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBoKjRk-gk65ai73As_q9DP0MiYIidP9lg',
-    appId: '1:956199470017:android:d104d31230ee82d10ca540',
-    messagingSenderId: '956199470017',
-    projectId: 'quixotic-galaxy-420619',
-    storageBucket: 'quixotic-galaxy-420619.appspot.com',
+    apiKey: 'AIzaSyAoRDMDlaPFb5mkzZtiHqw73Jzfv-nfavY',
+    appId: '1:197135685598:android:71ea39525856c9d9b4ef4f',
+    messagingSenderId: '197135685598',
+    projectId: 'scholar-chat-4d484',
+    storageBucket: 'scholar-chat-4d484.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAYxv_D2wcwcPryrtMDNZ9Ruh17TwJGyy4',
-    appId: '1:956199470017:ios:332ce9ef083cbb8e0ca540',
-    messagingSenderId: '956199470017',
-    projectId: 'quixotic-galaxy-420619',
-    storageBucket: 'quixotic-galaxy-420619.appspot.com',
+    apiKey: 'AIzaSyA4pEcA69LZnEv81NZsVp7GI8mUdJYVpvE',
+    appId: '1:197135685598:ios:cc7ae93e9671ea4db4ef4f',
+    messagingSenderId: '197135685598',
+    projectId: 'scholar-chat-4d484',
+    storageBucket: 'scholar-chat-4d484.appspot.com',
     iosBundleId: 'com.example.scholarChat',
   );
 

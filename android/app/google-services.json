@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "956199470017",
-    "project_id": "quixotic-galaxy-420619",
-    "storage_bucket": "quixotic-galaxy-420619.appspot.com"
+    "project_number": "197135685598",
+    "project_id": "scholar-chat-4d484",
+    "storage_bucket": "scholar-chat-4d484.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:956199470017:android:d104d31230ee82d10ca540",
+        "mobilesdk_app_id": "1:197135685598:android:71ea39525856c9d9b4ef4f",
         "android_client_info": {
           "package_name": "com.example.scholar_chat"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBoKjRk-gk65ai73As_q9DP0MiYIidP9lg"
+          "current_key": "AIzaSyAoRDMDlaPFb5mkzZtiHqw73Jzfv-nfavY"
         }
       ],
       "services": {
