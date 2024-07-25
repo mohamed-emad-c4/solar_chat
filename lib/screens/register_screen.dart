@@ -1,12 +1,12 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 String? _email;
 String? _password;
-String? errorMessage='Good!!!';
+String? errorMessage = 'Good!!!';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -18,7 +18,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   bool hidePassword = true;
   bool hideConfirmPassword = true;
-
+  GlobalKey<FormState> formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,22 +33,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 40.0),
-              _buildLogo(),
-              const SizedBox(height: 40.0),
-              _buildRegisterHeader(),
-              const SizedBox(height: 30.0),
-              _buildEmailField(),
-              const SizedBox(height: 20.0),
-              _buildPasswordField(),
-              const SizedBox(height: 20.0),
-              _buildRegisterButton(),
-              const SizedBox(height: 20.0),
-              _buildLoginLink(),
-            ],
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 40.0),
+                _buildLogo(),
+                const SizedBox(height: 40.0),
+                _buildRegisterHeader(),
+                const SizedBox(height: 30.0),
+                _buildEmailField(),
+                const SizedBox(height: 20.0),
+                _buildPasswordField(),
+                const SizedBox(height: 20.0),
+                _buildRegisterButton(),
+                const SizedBox(height: 20.0),
+                _buildLoginLink(),
+              ],
+            ),
           ),
         ),
       ),
@@ -71,7 +74,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildEmailField() {
-    return TextField(
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter some text';
+        }
+        return null;
+      },
       keyboardType: TextInputType.emailAddress,
       onChanged: (value) => _email = value,
       decoration: InputDecoration(
@@ -93,7 +102,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildPasswordField() {
-    return TextField(
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter some text';
+        }
+        return null;
+      },
       obscureText: hidePassword,
       onChanged: (value) => _password = value,
       decoration: InputDecoration(
@@ -163,40 +178,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         onPressed: () async {
-          try {
-            UserCredential thisUser =
-                await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: '$_email',
-              password: '$_password',
-            );
-            log("Register button pressed");
-          } catch (e) {
-            if (e is FirebaseAuthException) {
-              switch (e.code) {
-                case 'email-already-in-use':
-                  errorMessage =
-                      'The email address is already in use by another account.';
-                  break;
-                case 'invalid-email':
-                  errorMessage = 'The email address is not valid.';
-                  break;
-                case 'operation-not-allowed':
-                  errorMessage = 'Email/password accounts are not enabled.';
-                  break;
-                case 'weak-password':
-                  errorMessage = 'The password is too weak.';
-                  break;
-                default:
-                  errorMessage = 'An undefined error happened: ${e.message}';
+          if (formKey.currentState!.validate()) {
+            try {
+              UserCredential thisUser =
+                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                email: '$_email',
+                password: '$_password',
+              );
+              log("Register button pressed");
+            } catch (e) {
+              if (e is FirebaseAuthException) {
+                switch (e.code) {
+                  case 'email-already-in-use':
+                    errorMessage =
+                        'The email address is already in use by another account.';
+                    break;
+                  case 'network-request-failed':
+                    errorMessage =
+                        'A network error has occurred. Please check your internet connection and try again.';
+                    break;
+                  case 'too-many-requests':
+                    errorMessage = 'Too many attempts. Please try again later.';
+                    break;
+                  case 'timeout':
+                    errorMessage =
+                        'The request has timed out. Please try again later.';
+                    break;
+                  case 'invalid-email':
+                    errorMessage = 'The email address is not valid.';
+                    break;
+                  case 'operation-not-allowed':
+                    errorMessage = 'Email/password accounts are not enabled.';
+                    break;
+                  case 'weak-password':
+                    errorMessage = 'The password is too weak.';
+                    break;
+                  default:
+                    errorMessage = 'An undefined error happened: ${e.message}';
+                }
+              } else {
+                errorMessage = 'An unknown error occurred.';
               }
-            } else {
-              errorMessage = 'An unknown error occurred.';
+              log(errorMessage!); // Log the error message or show it to the user
             }
-            log(errorMessage!); // Log the error message or show it to the user
+            log("Login button pressed");
           }
-           setState(() {
-            
-          });
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(errorMessage!)));
+
+          setState(() {});
         },
         child: const Text(
           'Register',
@@ -216,13 +246,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const Text("Already have an account?"),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                context.go('/');
               },
               child: const Text("Login"),
             ),
           ],
         ),
-        Text("$errorMessage!",style: TextStyle(color: Colors.red),),
+        //  Text("$errorMessage!",style: TextStyle(color: Colors.red),),
       ],
     );
   }
