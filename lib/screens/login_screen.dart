@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:scholar_chat/screens/loading_screen.dart';
 import 'package:scholar_chat/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -152,9 +153,13 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         onPressed: () async {
           if (formKey.currentState!.validate()) {
-            setState(() {
-              isLoading = true;
-            });
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoadingScreen(),
+              ),
+            );
+            setState(() {});
             try {
               final credential =
                   await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -207,9 +212,10 @@ class _LoginScreenState extends State<LoginScreen> {
             } catch (e) {
               errorMessage = 'An unknown error occurred.';
               log(errorMessage!);
+             
 
               setState(() {}); // Log the error message or show it to the user
-            }
+            } Navigator.pop(context);
           }
 
           // ignore: avoid_print
@@ -241,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 //     builder: (context) => const RegisterScreen(),
                 //   ),
                 // );
-                context.go('/Register');
+                context.go('/register');
               },
               child: const Text("Sign Up"),
             ),
