@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:scholar_chat/change_them/change_them_cubit.dart';
 import 'package:scholar_chat/firebase_options.dart';
 import 'package:scholar_chat/screens/chat_screen.dart';
 import 'package:scholar_chat/screens/loading_screen.dart';
@@ -39,8 +41,8 @@ final _router = GoRouter(
     GoRoute(
       name: 'chat',
       path: '/chat/:email',
-      builder: (context, state) =>  ChatScreen(
-        email:state.pathParameters['email']! ,
+      builder: (context, state) => ChatScreen(
+        email: state.pathParameters['email']!,
       ),
     )
   ],
@@ -51,11 +53,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      darkTheme: darkmode ? ThemeData.dark() : ThemeData.light(),
-      debugShowCheckedModeBanner: false,
-      routerConfig: _router,
-      title: 'Chat',
+    return BlocProvider(
+      create: (context) => ChangeThemCubit(),
+      child: MaterialApp.router(
+        darkTheme: darkmode ? ThemeData.dark() : ThemeData.light(),
+        debugShowCheckedModeBanner: false,
+        routerConfig: _router,
+        title: 'Chat',
+      ),
     );
   }
 }
