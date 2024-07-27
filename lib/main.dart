@@ -6,12 +6,13 @@ import 'package:scholar_chat/screens/chat_screen.dart';
 import 'package:scholar_chat/screens/loading_screen.dart';
 import 'package:scholar_chat/screens/login_screen.dart';
 import 'package:scholar_chat/screens/register_screen.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MyApp());
 }
 
@@ -23,7 +24,7 @@ final _router = GoRouter(
       name:
           'login', // Optional, add name to your routes. Allows you navigate by name instead of path
       path: '/',
-      builder: (context, state) => const ChatScreen(),
+      builder: (context, state) => const LoginScreen(),
     ),
     GoRoute(
       name: 'register',
@@ -34,6 +35,13 @@ final _router = GoRouter(
       name: 'loading',
       path: '/loading',
       builder: (context, state) => const LoadingScreen(),
+    ),
+    GoRoute(
+      name: 'chat',
+      path: '/chat/:email',
+      builder: (context, state) =>  ChatScreen(
+        email:state.pathParameters['email']! ,
+      ),
     )
   ],
 );
@@ -45,9 +53,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       darkTheme: darkmode ? ThemeData.dark() : ThemeData.light(),
-      
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
+      title: 'Chat',
     );
   }
 }

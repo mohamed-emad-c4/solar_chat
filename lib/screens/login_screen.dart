@@ -166,6 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 email: '$_email',
                 password: '$_password',
               );
+              context.go('/chat/$_email',);
             } on FirebaseAuthException catch (e) {
               switch (e.code) {
                 case 'invalid-email':
@@ -212,10 +213,10 @@ class _LoginScreenState extends State<LoginScreen> {
             } catch (e) {
               errorMessage = 'An unknown error occurred.';
               log(errorMessage!);
-             
 
               setState(() {}); // Log the error message or show it to the user
-            } Navigator.pop(context);
+            }
+            Navigator.pop(context);
           }
 
           // ignore: avoid_print
